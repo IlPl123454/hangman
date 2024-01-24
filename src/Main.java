@@ -30,7 +30,6 @@ public class Main {
             startNewRound(words);
         }
 
-
     }
     public static void startNewRound(ArrayList<String > words){
 
@@ -46,9 +45,7 @@ public class Main {
 
         String hiddenWord = makeWordHidden(word);
 
-        char[] usedLetters = new char[32];
-
-        HashSet<Character> usedLetters2 = new HashSet<Character>();
+        HashSet<Character> usedLetters2 = new HashSet<>();
 
         int mistakes = 0;
 
@@ -58,7 +55,7 @@ public class Main {
 
             System.out.println("Слово: " + hiddenWord);
 
-            letter = inputLetterFromUser(usedLetters);
+            letter = inputLetterFromUser(usedLetters2);
 
             if (isLetterInWord(word, letter)) {
                 System.out.println("Верно!");
@@ -66,16 +63,15 @@ public class Main {
                 System.out.println("Ошибка!");
                 mistakes++;
             }
-
+            usedLetters2.add(letter);
 
             printHangman(mistakes);
 
-            usedLetters = addLetterToUsedLetters(usedLetters, letter);
-            usedLetters2.add(letter);
-
             hiddenWord = insertRightLetterInHiddenWord(word, hiddenWord, letter);
 
-            printUsedLetters(usedLetters);
+
+            System.out.println("Использованные буквы: " + usedLetters2);
+            printUsedLetters(usedLetters2);
 
             System.out.println("Количество возможных ошибок - " + (POSSIBLE_MISTAKES - mistakes) + "\n");
         }
@@ -163,6 +159,7 @@ public class Main {
         return false;
     }
 
+
     public static String  insertRightLetterInHiddenWord(String word, String hiddenWord, char letter) {
 
         StringBuilder sb = new StringBuilder(hiddenWord);
@@ -178,13 +175,13 @@ public class Main {
         return hiddenWord;
         }
 
-    public static char inputLetterFromUser(char[] usedLetters){
+    public static char inputLetterFromUser(HashSet<Character> usedLetters){
         char letter;
         do {
             System.out.print("Введите букву: ");
             letter = scanner.next().charAt(0);
             letter = Character.toLowerCase(letter);
-            if (isLetterUsed(usedLetters, letter)){
+            if (usedLetters.contains(letter)){
                 System.out.println("Вы уже использовали эту букву. Попробуйте другую.");
             } else if (letter < 'а' || letter > 'я') {
                 System.out.println("Введите букву русского алфавита.");
@@ -196,40 +193,14 @@ public class Main {
         return letter;
     }
 
-    public static char[] addLetterToUsedLetters(char[] usedLetters, char letter){
-        for (int i = 0; i < usedLetters.length; i++) {
-            if (usedLetters[i] == '\u0000'){
-                usedLetters[i] = letter;
-                return usedLetters;
-            }
-        }
-        return usedLetters;
-    }
 
-    public static boolean isLetterUsed(char[] usedLetters, char letter){
-        for (int i = 0; i < usedLetters.length; i++) {
-            if (usedLetters[i] == letter){
-                return true;
-            } else if (usedLetters[i] == '\u0000'){
-                return false;
-            }
-        }
-        return false;
-    }
-
-    public  static  void printUsedLetters (char[] usedLetters){
+    public  static  void printUsedLetters (HashSet<Character> usedLetters){
         System.out.print("Использованные буквы:");
 
         for (char usedLetter : usedLetters) {
-            if (usedLetter != '\u0000') {
-                System.out.print(" " + usedLetter);
-            } else {
-                System.out.println();
-                break;
-            }
+            System.out.print(usedLetter + ", ");
         }
-
-
+        System.out.println();
     }
 
     public static String  checkGameStatus(String word, String hiddenWord, int mistakes){
