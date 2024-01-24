@@ -29,7 +29,6 @@ public class Main {
             ArrayList<String> words = getWordList(path);
             startNewRound(words);
         }
-
     }
     public static void startNewRound(ArrayList<String > words){
 
