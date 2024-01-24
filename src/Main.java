@@ -69,8 +69,6 @@ public class Main {
 
             hiddenWord = insertRightLetterInHiddenWord(word, hiddenWord, letter);
 
-
-            System.out.println("Использованные буквы: " + usedLetters2);
             printUsedLetters(usedLetters2);
 
             System.out.println("Количество возможных ошибок - " + (POSSIBLE_MISTAKES - mistakes) + "\n");
@@ -195,7 +193,7 @@ public class Main {
 
 
     public  static  void printUsedLetters (HashSet<Character> usedLetters){
-        System.out.print("Использованные буквы:");
+        System.out.print("Использованные буквы: ");
 
         for (char usedLetter : usedLetters) {
             System.out.print(usedLetter + ", ");
